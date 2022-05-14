@@ -62,6 +62,7 @@ public class IKanman extends MangaParser {
                 String cid = node.hrefWithSplit("a.bcover", 1);
                 String title = node.text(".book-detail > dl > dt > a");
                 String cover = node.attr("a.bcover > img", "src");
+                cover = "http:" + cover;
 //                String update = node.text("dl:eq(5) > dd");
 //                String author = node.text("dl:eq(2) > dd");
                 return new Comic(TYPE, cid, title, cover, "", "");
@@ -94,7 +95,7 @@ public class IKanman extends MangaParser {
     public void parseInfo(String html, Comic comic) {
         Node body = new Node(html);
         String title = body.text("div.book-title > h1");
-        String cover = body.src("p.hcover > img");
+        String cover = "http:" + body.src("p.hcover > img");
         String update = body.text("div.chapter-bar > span.fr > span:eq(1)");
         String author = body.attr("ul.detail-list > li:eq(1) > span:eq(1) > a", "title");
         String intro = body.text("#intro-cut");
@@ -196,6 +197,7 @@ public class IKanman extends MangaParser {
             if (StringUtils.isEmpty(cover)) {
                 cover = node.attr("a > img", "data-src");
             }
+            cover = "http:" + cover;
             String update = node.textWithSubstring("span.updateon", 4, 14);
             list.add(new Comic(TYPE, cid, title, cover, update, null));
         }
